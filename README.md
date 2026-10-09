@@ -4,7 +4,25 @@
 
 **3D printed case (STL + assembly):** [MakerWorld](https://makerworld.com/en/models/2872376-esp32-plane-radar-live-ads-b-on-a-round-display#profileId-3207083) · **Firmware:** [Releases](https://github.com/MatixYo/ESP32-Plane-Radar/releases)
 
-Firmware for an **ESP32-C3 Super Mini** and a **1.28″ round GC9A01** display (240×240). Shows a circular **ADS-B radar** around your configured location, with **WiFiManager** for first-time setup.
+Replacement Firmware for an ALIEXPRESS PLANE RADAR WITH ORIGINAL CHINESE FIRMWARE **ESP32-S3 Super Mini** and a **1.28″ round GC9A01** display (240×240). Shows a circular **ADS-B radar** around your configured location, with **WiFiManager** for first-time setup. Forked from the original Open Source and just modified enough to get it working with the annoying chinese clone that has a weird GPIO setup:
+
+Summary
+Fixes display initialization and frame rendering issues on the **ESP32-S3 SuperMini** when paired with a **1.28" GC9A01 circular display module (VER 1.0)**.
+
+Hardware Details & Pinout
+The 1.28" GC9A01 module has the `R8-CS to GND` 0-ohm jumper resistor populated on the PCB, hardwiring Chip Select (`CS`) to `GND`. Setting `kDisplayPinCs` to `GPIO_NUM_NC` (`-1`) avoids driver hangs on the software CS pin state.
+
+| Display Function | Display PCB Marking | ESP32-S3 SuperMini GPIO | Notes |
+| :--- | :--- | :--- | :--- |
+| **Reset** | `RST` | `GPIO 6` | Hardware Reset line |
+| **Data / Command** | `DC` | `GPIO 7` | D/C selector |
+| **Data (MOSI)** | `SDA` | `GPIO 11` | Hardware SPI2 MOSI |
+| **Clock (SCK)** | `SCL` | `GPIO 12` | Hardware SPI2 SCK |
+| **Chip Select** | `CS` | *N/A (`GPIO_NUM_NC`)* | Hardwired to GND via `R8` resistor |
+
+Testing & Verification
+- Traced physical PCB connections on dismantled unit.
+- Verified display panel works
 
 ## What it does
 
